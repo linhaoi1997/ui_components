@@ -4,8 +4,8 @@ import logging
 from selenium.common.exceptions import NoSuchElementException
 
 from .base_input import BaseInput
-from .text_input import TextInput, NoLabelTextInput, TextAreaInput
-from .select_input import NativeSelectInput, NoLabelMuiSelectInput, MuiSelectInput
+from .text_input import TextAreaInput
+from .select_input import NativeSelectInput, MuiSelectInput
 from .date_input import DateInput
 from .checkbox_input import CheckBoxGroupInput
 
@@ -48,6 +48,7 @@ class TextGroupInput(BaseInput):
             setattr(form, "input" + str(i + 1), values[i])
 
 
+# 单选下拉框
 class SelectAndTextGroupForm(FormComponent):
     DEFAULT_LOCATOR = ".//div[@variant='outlined']"
     base_finder_attr = "element"
@@ -71,67 +72,36 @@ class SelectAndTextGroupInput(BaseInput):
         form.input2 = value[1]
 
 
-class MultiSelectAndTextGroupForm(FormComponent):
-    DEFAULT_LOCATOR = ".//div[@variant='outlined']"
-    base_finder_attr = "element"
+# 多选下拉框
+class MultiSelectAndTextGroupForm(SelectAndTextGroupForm):
     input1 = MuiSelectInput(num=1)
-    input2 = TextAreaInput(num=2)
 
 
 class MuiSelectAndTextGroupInput(SelectAndTextGroupInput):
-    pass
+    form = MultiSelectAndTextGroupForm()
 
 
-class SelectAndDateInput(BaseInput):
-    INPUTS_LOCATOR = ".//div[@variant='outlined']/div"
+# 下拉框+日期
+class SelectAndDateFrom(SelectAndTextGroupForm):
+    input2 = DateInput(num=2)
 
-    def __init__(self, element):
-        super(SelectAndDateInput, self).__init__(element)
-        tmp = self.element.find_elements_by_xpath(self.INPUTS_LOCATOR)
-        self.select_input = NativeSelectInput(tmp[0])
-        self.date_input = DateInput(tmp[1])
 
-    @property
-    def value(self):
-        """:return input已经输入的值"""
-        return self._value or str([self.select_input.value, self.date_input.value])
+class SelectAndDateInput(SelectAndTextGroupInput):
+    form = SelectAndDateFrom()
 
-    @value.setter
-    def value(self, value):
-        self.select_input.value = value[0]
-        self.date_input.value = value[1]
-        self._value = value
+
+# 多选下拉框+日期
+class MuiSelectAndDateForm(SelectAndDateFrom):
+    input1 = MuiSelectInput(num=1)
 
 
 class MuiSelectAndDateInput(SelectAndDateInput):
-
-    def __init__(self, element):
-        super(MuiSelectAndDateInput, self).__init__(element)
-        tmp = self.element.find_elements_by_xpath(self.INPUTS_LOCATOR)
-        self.select_input = NoLabelMuiSelectInput(tmp[0], self.element.find_element_by_xpath(self.LABEL_LOCATOR))
-        self.date_input = DateInput(tmp[1])
+    form = MuiSelectAndDateForm()
 
 
-class CheckBoxGroupAndTextInput(BaseInput):
-    INPUTS_LOCATOR = ".//div[@variant='outlined']/div"
+class CheckBoxGroupAndTextFrom(SelectAndTextGroupForm):
+    input1 = CheckBoxGroupInput()
 
-    def __init__(self, element):
-        super(CheckBoxGroupAndTextInput, self).__init__(element)
-        tmp = self.element.find_elements_by_xpath(self.INPUTS_LOCATOR)
-        self.checkbox_group_input = CheckBoxGroupInput(tmp[0])
-        self.text_input = NoLabelTextInput(tmp[1])
 
-    @property
-    def real_value(self):
-        return [self.checkbox_group_input.real_value, self.text_input.value]
-
-    @property
-    def value(self):
-        """:return input已经输入的值"""
-        return self._value or str([self.checkbox_group_input.real_value, self.text_input.value])
-
-    @value.setter
-    def value(self, value):
-        self.checkbox_group_input.value = value[0]
-        self.text_input.value = value[1]
-        self._value = value
+class CheckBoxGroupAndTextInput(SelectAndTextGroupInput):
+    form = CheckBoxGroupAndTextFrom()

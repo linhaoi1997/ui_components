@@ -92,7 +92,7 @@ class MuiSelectInput(NativeSelectInput):
 
     def choice(self, *values):
         """选择一个下拉选项"""
-        options = self.options
+        # options = self.options
         # 清空所有的选项
         for i in self.selected_elements:
             i.delete()
@@ -107,15 +107,14 @@ class MuiSelectInput(NativeSelectInput):
         ActionChains(self.driver).click(self.element.find_element_by_xpath(self.LABEL_LOCATOR)).perform()
         WebDriverWait(self.driver, 5).until(expected_conditions.invisibility_of_element(option.element))
 
-
-class NoLabelMuiSelectInput(MuiSelectInput):
-    """
-    用于复杂input的子元素，子元素没有label，无法点击自己的label元素来使下拉框收起，使用复杂input的label
-    :param element: 整个input元素
-    :param label_element: 父节点的复杂input的label元素
-    """
-
-    # def _make_sure_options_invisibility(self, option):
-    #     # 点击label使下拉框收起
-    #     ActionChains(self.driver).click(self.label_element).perform()
-    #     WebDriverWait(self.driver, 5).until(expected_conditions.invisibility_of_element(option.element))
+# class NoLabelMuiSelectInput(MuiSelectInput):
+#     """
+#     用于复杂input的子元素，子元素没有label，无法点击自己的label元素来使下拉框收起，使用复杂input的label
+#     :param element: 整个input元素
+#     :param label_element: 父节点的复杂input的label元素
+#     """
+#
+#     def _make_sure_options_invisibility(self, option):
+#         # 点击label使下拉框收起
+#         ActionChains(self.driver).click(self.label_element).perform()
+#         WebDriverWait(self.driver, 5).until(expected_conditions.invisibility_of_element(option.element))

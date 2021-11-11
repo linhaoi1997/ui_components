@@ -1,4 +1,4 @@
-from .base_component import PageComponent
+from ui_components.components.base_component import PageComponent
 
 
 class BaseForm(PageComponent):

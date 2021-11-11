@@ -2,7 +2,6 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
 from .base_input import BaseInput
-from .base_component import BaseComponent
 from ...utils.raise_error import raise_assert_error
 
 
