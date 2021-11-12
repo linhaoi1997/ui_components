@@ -60,7 +60,7 @@ class BaseInput(metaclass=ABCMeta):
     @property
     def hint(self):
         """:return =输入的提示"""
-        return
+        return self.element.find_element_by_xpath(".//p").text
 
     @property
     @abstractmethod
@@ -79,7 +79,7 @@ class BaseInput(metaclass=ABCMeta):
 
     def fake(self):
         """为input随机填写值"""
-        self._value = None
+        self.value = None
 
     @staticmethod
     def send_keys(element, value):
