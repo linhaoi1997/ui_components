@@ -1,5 +1,3 @@
-import logging
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -9,14 +7,14 @@ class BaseComponent(object):
     base_finder_attr = "element"
     DEFAULT_LOCATOR = ""
 
-    def __init__(self, locator=None):
+    def __init__(self, locator=None, base_finder=None):
         if isinstance(locator, list):
             self.locator = locator
         elif locator is None:
             self.locator = [By.XPATH, self.DEFAULT_LOCATOR]
         else:
             self.locator = [By.XPATH, locator]
-        self.base_finder = None
+        self.base_finder = base_finder
         self.driver = None
 
     @property

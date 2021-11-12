@@ -1,9 +1,8 @@
-import logging
 from typing import Dict, Type
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.expected_conditions import element_to_be_clickable, url_changes
+from selenium.webdriver.support.expected_conditions import element_to_be_clickable, url_changes, invisibility_of_element
 
 from ui_components.components.form_components import FormComponent
 from .config_form import BaseDefinedForm
@@ -17,6 +16,7 @@ class DefineFormComponent(PageComponent):
     add_button = ButtonElement("新增字段")  # 新增字段
     save_button = ButtonElement("保存")  # 保存字段
     delete_button = ButtonElement("删除字段")
+    confirm_button = ButtonElement("确定")
 
     _defined_form: BaseDefinedForm
     defined_form_type: Type[FormComponent]  # 返回表单类型会存在这里
@@ -31,14 +31,18 @@ class DefineFormComponent(PageComponent):
         self.save_button.click()
         WebDriverWait(self.driver, 5).until(url_changes(url))
 
+    @property
+    def __all_fields_element(self):
+        return self.element.find_elements(By.XPATH, "./div/div")
+
     def add_field(self):  # 点击新增按钮
         self.setup()
-        number = len(self.element.find_elements(By.XPATH, "./div/div"))
+        number = len(self.__all_fields_element)
         self.add_button.click()
 
         def field_num_changes(num):
             def _predicate(element):
-                return num != len(self.element.find_elements(By.XPATH, "./div/div"))
+                return num != len(self.__all_fields_element)
 
             return _predicate
 
@@ -66,7 +70,13 @@ class DefineFormComponent(PageComponent):
         return form
 
     def delete_all_fields(self):  # 删除自定义字段
-        pass
+        while self.__all_fields_element:
+            element = self.__all_fields_element[0]
+            element.click()
+            delete_button = self.delete_button
+            delete_button.click()
+            self.confirm_button.click()
+            WebDriverWait(self.driver, 5).until(invisibility_of_element(delete_button))
 
     def all_fields(self):
         pass
