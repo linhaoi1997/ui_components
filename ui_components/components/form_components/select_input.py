@@ -32,7 +32,7 @@ class NativeSelectInput(BaseInput):
         flag = False
         for select_button in self.select_buttons:
             try:
-                logging.info(self.element.parent)
+                # logging.info(self.element.parent)
                 with wait_options_visibility(self.element.parent):
                     self.element.find_element_by_xpath(select_button).click()
                 flag = True

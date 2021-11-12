@@ -83,7 +83,7 @@ class BaseInput(metaclass=ABCMeta):
 
     @staticmethod
     def send_keys(element, value):
-        logging.info("clear")
+        element.click()
         element.clear()
         if element.get_attribute("value"):
             element.send_keys(Keys.ARROW_DOWN)

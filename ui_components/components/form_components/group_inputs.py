@@ -13,6 +13,7 @@ from .form_component import FormComponent
 from ...utils.change_wait_time import change_wait_time
 
 
+# 输入框组
 class TextGroupForm(FormComponent):
     DEFAULT_LOCATOR = ".//div[@variant='outlined']"
     base_finder_attr = "element"
@@ -100,7 +101,7 @@ class MuiSelectAndDateInput(SelectAndDateInput):
 
 
 class CheckBoxGroupAndTextFrom(SelectAndTextGroupForm):
-    input1 = CheckBoxGroupInput()
+    input1 = CheckBoxGroupInput(num=1)
 
 
 class CheckBoxGroupAndTextInput(SelectAndTextGroupInput):

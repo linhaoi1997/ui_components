@@ -6,7 +6,8 @@ class DateInput(BaseInput):
 
     @property
     def value(self):
-        return self.element.find_element_by_xpath(".//input").text.replace("/", "").replace(" ", "").replace(":", "")
+        return self.element.find_element_by_xpath(".//input").get_attribute("value"). \
+            replace("/", " ").replace(":", " ")
 
     @value.setter
     def value(self, value: datetime.datetime):

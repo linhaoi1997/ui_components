@@ -60,7 +60,7 @@ class _SelectedElement(object):
         self.driver = self.element.parent
 
     def delete(self):
-        self.element.find_element_by_xpath("./svg").click()
+        self.element.find_element_by_xpath("./*[name()='svg']").click()
 
     @property
     def value(self):
@@ -72,7 +72,7 @@ class SelectedElements(object):
         if locator:
             self.locator = locator
         else:
-            self.locator = (By.XPATH, ".//input/preceding-sibling::div")
+            self.locator = (By.XPATH, ".//input/preceding-sibling::div/div")
 
     def __get__(self, instance, owner) -> List[_SelectedElement]:
         """instance应该是input元素上面的div，表示已经选中哪些选项"""
