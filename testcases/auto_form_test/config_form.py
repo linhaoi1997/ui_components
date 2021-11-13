@@ -98,8 +98,8 @@ class NumberForm(TextForm):
 # 日期表单
 class DateForm(BaseDefinedForm):
     hint = TextInput("日期输入提示")
-    default = TextInput("日期默认内容")
-    date_format = TextInput("日期显示格式")
+    default = RadioGroupInput("日期默认内容")
+    date_format = NativeSelectInput("日期显示格式")
 
     def setup(self):
         self.field_format = "日期"
@@ -148,11 +148,13 @@ class TextGroupForm(BaseDefinedForm):
     text_form2 = SubNumberForm(TEXT_GROUP_LOCATOR % 2)
 
     def setup(self):
-        self.field_format = "输入框组"
+        # self.field_format = "输入框组"
+        self.field_format = "文本+输入框"
 
 
 # 下拉框+输入框
 class SingleSelectAndTextForm(SingleSelectForm, TextForm):
+    select_hint = TextInput("下拉输入提示")
 
     def setup(self):
         self.field_format = "下拉框+输入框"
@@ -198,11 +200,15 @@ class CheckboxAndTextForm(CheckForm, TextForm):
 class MinMaxRangeConfigForm(NumberConfigForm):
     required = RadioGroupInput("是否必填")
     range = DoubleNumbersInput("数值大小范围")
+    hint = TextInput("输入提示")
+    default = NumberInput("输入默认内容")
+    unit = TextInput("输入单位")
 
 
 class MinMaxRangeForm(BaseDefinedForm):
     form1 = MinMaxRangeConfigForm("//p[text()='最小值输入框']/following-sibling::div")
     form2 = MinMaxRangeConfigForm("//p[text()='最大值输入框']/following-sibling::div")
+    decimal_places = RadioGroupInput("小数位数")
 
     def setup(self):
         self.field_format = "数值范围输入框组"

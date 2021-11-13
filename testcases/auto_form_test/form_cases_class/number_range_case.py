@@ -25,7 +25,13 @@ class MinMaxCase(BaseFormCase):
             {
                 "field_name": "数值范围输入框组",
                 "args": {
+                    "decimal_places": "2",
                     "form1.range": [10, 20],
+                    "form1.required": "不必填",
+                    "form1.can_be_zero": "不可为零",
+                    "form1.hint": "输入提示",
+                    "form1.default": 11,
+                    "form1.unit": "输入单位",
                 },
                 "config_form": MinMaxRangeForm
             },
