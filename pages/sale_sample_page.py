@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.expected_conditions import url_matches
+from selenium.webdriver.support.expected_conditions import  url_changes
 from selenium.webdriver.support.wait import WebDriverWait
 
 from ui_components.components.form_components import *
@@ -15,7 +15,7 @@ class SaleSamplePage(BasePage):
     def add(self):
         self.add_button.click()
         new_page = CreateSaleSamplePage(self.driver)
-        WebDriverWait(self.driver, 5).until(url_matches(new_page.url))
+        new_page.wait_for_jump()
         return new_page
 
 
@@ -30,6 +30,7 @@ class CreateSaleSamplePage(BasePage):
     url = "subapp/sale/sample/create"
     form = SaleForm()
     add_product_button = ButtonElement("添加")
+    submit = ButtonElement("确认提交")
 
     def add_product(self):
         self.add_product_button.click()
@@ -47,3 +48,7 @@ class CreateSaleSamplePage(BasePage):
         form.address.fake()
         self.add_product()
         yield
+        self.submit.click()
+        WebDriverWait(self.driver, 5).until(url_changes(self.full_url))
+        new_page = SaleSamplePage(self.driver)
+        return new_page

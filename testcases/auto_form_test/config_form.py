@@ -35,7 +35,8 @@ class HintForm(BaseDefinedForm):
     text = TextInput("文本内容")
 
     def setup(self):
-        self.field_format = "提示"
+        # self.field_format = "提示"
+        self.field_format = "提示文本"
 
 
 # 文本表单
@@ -189,3 +190,19 @@ class CheckboxAndTextForm(CheckForm, TextForm):
     def setup(self):
         self.field_format = "复选框组+输入框"
         self.limit = "文本"
+
+
+# 复选框组+日期
+
+
+class MinMaxRangeConfigForm(NumberConfigForm):
+    required = RadioGroupInput("是否必填")
+    range = DoubleNumbersInput("数值大小范围")
+
+
+class MinMaxRangeForm(BaseDefinedForm):
+    form1 = MinMaxRangeConfigForm("//p[text()='最小值输入框']/following-sibling::div")
+    form2 = MinMaxRangeConfigForm("//p[text()='最大值输入框']/following-sibling::div")
+
+    def setup(self):
+        self.field_format = "数值范围输入框组"

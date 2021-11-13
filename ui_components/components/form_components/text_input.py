@@ -24,8 +24,9 @@ class NumberInput(BaseInput):
 
     @property
     def value(self):
-        """:return input已经输入的值"""
-        return float(self.element.find_element_by_xpath(".//input").get_attribute("value"))
+        value = self.element.find_element_by_xpath(".//input").get_attribute("value")
+        if value:
+            return float(value)
 
     @value.setter
     def value(self, value: float):

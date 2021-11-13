@@ -5,7 +5,7 @@ from abc import abstractmethod
 from selenium.common.exceptions import TimeoutException
 
 from .base_input import BaseInput
-from .text_input import TextAreaInput
+from .text_input import TextAreaInput, NumberInput
 from .select_input import NativeSelectInput, MuiSelectInput
 from .date_input import DateInput
 from .checkbox_input import CheckBoxGroupInput
@@ -57,7 +57,7 @@ class TextGroupInput(SubInput):
     @value.setter
     def value(self, values: list):
         form = self.form
-        for i in range(3):
+        for i in range(len(values)):
             logging.info(values[i])
             setattr(form, "input" + str(i + 1), values[i])
 
@@ -117,3 +117,14 @@ class CheckBoxGroupAndTextFrom(SelectAndTextGroupForm):
 
 class CheckBoxGroupAndTextInput(SelectAndTextGroupInput):
     form = CheckBoxGroupAndTextFrom()
+
+
+# 数值范围输入框
+class DoubleNumbersForm(SubForm):
+    base_finder_attr = "element"
+    input1 = NumberInput(num=1)
+    input2 = NumberInput(num=2)
+
+
+class DoubleNumbersInput(SelectAndTextGroupInput):
+    form = DoubleNumbersForm()

@@ -8,7 +8,7 @@ from ui_components.components.form_components import FormComponent
 from .config_form import BaseDefinedForm
 from ui_components.components.base_component import PageComponent
 from ui_components.elements.template_elements import ButtonElement
-from .form_cases import BaseFormCase
+from .base_form_case import BaseFormCase
 
 
 class DefineFormComponent(PageComponent):
