@@ -1,7 +1,8 @@
 """复合表单，这里面实现了所有的自定义表单声明的字段，待实现"""
 import logging
+from abc import abstractmethod
 
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 from .base_input import BaseInput
 from .text_input import TextAreaInput
@@ -13,17 +14,29 @@ from .form_component import FormComponent
 from ...utils.change_wait_time import change_wait_time
 
 
+class SubForm(FormComponent):
+    DEFAULT_LOCATOR = ".//div[@variant='outlined'] | .//label/following-sibling::div/div"
+
+
+class SubInput(BaseInput):
+    INPUTS_LOCATOR = ".//div[@variant='outlined']/div | .//label/following-sibling::div/div"
+
+    @property
+    @abstractmethod
+    def value(self):
+        """:return input已经输入的值"""
+        return self._value
+
+
 # 输入框组
-class TextGroupForm(FormComponent):
-    DEFAULT_LOCATOR = ".//div[@variant='outlined']"
+class TextGroupForm(SubForm):
     base_finder_attr = "element"
     input1 = TextAreaInput(num=1)
     input2 = TextAreaInput(num=2)
     input3 = TextAreaInput(num=3)
 
 
-class TextGroupInput(BaseInput):
-    INPUTS_LOCATOR = ".//div[@variant='outlined']/div"
+class TextGroupInput(SubInput):
     form = TextGroupForm()
 
     @property
@@ -34,9 +47,9 @@ class TextGroupInput(BaseInput):
             for i in range(3):
                 try:
                     input_element = getattr(form, "input" + str(i + 1))
-                    logging.info(input_element.label)
+                    # logging.info(input_element.label)
                     result[input_element.label] = input_element.value
-                except NoSuchElementException as e:
+                except TimeoutException as e:
                     logging.info(e)
 
         return result
@@ -50,15 +63,13 @@ class TextGroupInput(BaseInput):
 
 
 # 单选下拉框
-class SelectAndTextGroupForm(FormComponent):
-    DEFAULT_LOCATOR = ".//div[@variant='outlined']"
+class SelectAndTextGroupForm(SubForm):
     base_finder_attr = "element"
     input1 = NativeSelectInput(num=1)
     input2 = TextAreaInput(num=2)
 
 
-class SelectAndTextGroupInput(BaseInput):
-    INPUTS_LOCATOR = ".//div[@variant='outlined']/div"
+class SelectAndTextGroupInput(SubInput):
     form = SelectAndTextGroupForm()
 
     @property

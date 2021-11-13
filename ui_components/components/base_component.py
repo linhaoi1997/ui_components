@@ -15,7 +15,10 @@ class BaseComponent(object):
         else:
             self.locator = [By.XPATH, locator]
         self.base_finder = base_finder
-        self.driver = None
+        if base_finder:
+            self.driver = base_finder if self.base_finder_attr == "driver" else base_finder.parent
+        else:
+            self.driver = None
 
     @property
     def element(self):

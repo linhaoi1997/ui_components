@@ -70,8 +70,9 @@ class DefineFormComponent(PageComponent):
         return form
 
     def delete_all_fields(self):  # 删除自定义字段
+        self.setup()
         while self.__all_fields_element:
-            element = self.__all_fields_element[0]
+            element = self.__all_fields_element[-1]
             element.click()
             delete_button = self.delete_button
             delete_button.click()
