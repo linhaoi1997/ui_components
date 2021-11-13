@@ -1,4 +1,4 @@
-from typing import Dict, Type
+from typing import  Type
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -12,7 +12,8 @@ from .form_cases import BaseFormCase
 
 
 class DefineFormComponent(PageComponent):
-    DEFAULT_LOCATOR = "//div[contains(@class,'CustomFieldsContainer___StyledDiv-sc-17b32z8-0')]"
+    DEFAULT_LOCATOR = "//div[contains(@class,'CustomFieldsContainer')]"
+    FORM_LOCATOR = "//label[span='字段名称']/ancestor::div[label]/.."
     add_button = ButtonElement("新增字段")  # 新增字段
     save_button = ButtonElement("保存")  # 保存字段
     delete_button = ButtonElement("删除字段")
@@ -20,10 +21,10 @@ class DefineFormComponent(PageComponent):
 
     _defined_form: BaseDefinedForm
     defined_form_type: Type[FormComponent]  # 返回表单类型会存在这里
-    config: Dict  # 表单配置存在这里
 
     def setup(self):  # 初始化
-        self.element.click()
+        if not element_to_be_clickable(self.add_button)(self.driver):
+            self.element.click()
         WebDriverWait(self.driver, 5).until(element_to_be_clickable(self.add_button), "新增字段按钮不可点击")
 
     def save(self):  # 点击保存按钮
@@ -55,7 +56,7 @@ class DefineFormComponent(PageComponent):
         config = form_case.config
         for field in config:
             self.add_field()
-            setattr(self, "config_form", field["config_form"]())
+            setattr(self, "config_form", field["config_form"](self.FORM_LOCATOR))
             config_form = getattr(self, "config_form")
             config_form.base_finder = self.element
             config_form.setup()

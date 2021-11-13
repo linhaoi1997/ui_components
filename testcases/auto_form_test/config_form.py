@@ -4,7 +4,7 @@ from ui_components.components.form_components import *
 
 # 基类表单
 class BaseDefinedForm(BaseComponent):
-    DEFAULT_LOCATOR = "//div[@variant='outlined']"
+    DEFAULT_LOCATOR = "//label[span='字段名称']/ancestor::div[label]/.."
 
     field_name = TextInput("字段名称")
     user_role = RadioGroupInput("角色权限")
@@ -72,14 +72,14 @@ class MuiSelectForm(SingleSelectForm):
 
 # 数值范围子表单
 class NumberRangeForm(BaseComponent):
-    DEFAULT_LOCATOR = ".//div[@variant='outlined']"
+    DEFAULT_LOCATOR = "//label[span='最小值']/ancestor::div[label]/.."
     min_range = NumberInput("最小值")
     max_range = NumberInput("最大值")
 
 
 # 数值配置表单
 class NumberConfigForm(BaseComponent):
-    DEFAULT_LOCATOR = ".//div[@variant='outlined']"
+    DEFAULT_LOCATOR = "//label[span='大小范围']/ancestor::div[label]/.."
     range = NumberRangeForm()
     can_be_zero = RadioGroupInput("能否为零")
     decimal_digits = RadioGroupInput("小数位数")
@@ -138,9 +138,13 @@ class SubNumberForm(NumberForm):
 
 
 # 输入框组表单
+TEXT_GROUP_LOCATOR = "//label[span='是否必填']/ancestor::div[label]/following-sibling::div/div/div[%s]" \
+                     "//label[span='输入框名称']/ancestor::div[label]/.."
+
+
 class TextGroupForm(BaseDefinedForm):
-    text_form1 = SubTextForm("./div[last()]/div/div[1]//div[@variant='outlined']")
-    text_form2 = SubNumberForm("./div[last()]/div/div[2]//div[@variant='outlined']")
+    text_form1 = SubTextForm(TEXT_GROUP_LOCATOR % 1)
+    text_form2 = SubNumberForm(TEXT_GROUP_LOCATOR % 2)
 
     def setup(self):
         self.field_format = "输入框组"

@@ -7,12 +7,12 @@ class TextInput(BaseInput):
     @property
     def value(self):
         """:return input已经输入的值"""
-        return self.element.find_element_by_xpath(".//input").get_attribute("value")
+        return self.element.find_element_by_xpath(".//input| .//textarea").get_attribute("value")
 
     @value.setter
     def value(self, value: str):
         self._value = value
-        input_ = self.element.find_element_by_xpath(".//input")
+        input_ = self.element.find_element_by_xpath(".//input|.//textarea")
         self.send_keys(input_, value)
 
 
@@ -37,12 +37,12 @@ class TextAreaInput(BaseInput):
     @property
     def value(self):
         """:return input已经输入的值"""
-        return self.element.find_element_by_xpath(".//textarea").get_attribute("value")
+        return self.element.find_element_by_xpath(".//input| .//textarea").get_attribute("value")
 
     @value.setter
     def value(self, value: str):
         self._value = value
-        input_ = self.element.find_element_by_xpath(".//textarea")
+        input_ = self.element.find_element_by_xpath(".//input| .//textarea")
         self.send_keys(input_, value)
 
     @property
