@@ -15,6 +15,9 @@ class TextInput(BaseInput):
         input_ = self.element.find_element_by_xpath(".//input|.//textarea")
         self.send_keys(input_, value)
 
+    def fake(self):
+        self.value = "cesces"
+
 
 class NumberInput(BaseInput):
     """文本输入框"""
@@ -29,6 +32,9 @@ class NumberInput(BaseInput):
         self._value = value
         input_ = self.element.find_element_by_xpath(".//input")
         self.send_keys(input_, value)
+
+    def fake(self):
+        self.value = 5
 
 
 class TextAreaInput(BaseInput):
@@ -49,6 +55,9 @@ class TextAreaInput(BaseInput):
     def label(self):
         return self.element.find_element_by_xpath(".//label/span[last()]").text
 
+    def fake(self):
+        self.value = "cesces"
+
 
 class OptionTextInput(BaseInput):
     """输入框，以回车为结束，新增选项"""
@@ -64,6 +73,9 @@ class OptionTextInput(BaseInput):
         self._value = "\n".join(value) + "\n"
         input_ = self.element.find_element_by_xpath(".//input")
         self.send_keys(input_, self._value)
+
+    def fake(self):
+        self.value = ["ces", "cesces"]
 
 # class NoLabelTextInput(TextInput):
 #     """有些输入框没有标题label，待实现"""

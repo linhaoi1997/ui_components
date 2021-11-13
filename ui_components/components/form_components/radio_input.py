@@ -1,3 +1,5 @@
+import random
+
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -64,3 +66,8 @@ class RadioGroupInput(BaseInput):
         else:
             raise_assert_error(self.driver, f"没找到从radios{[i.name for i in self.radios]}中想要的下拉选项{value} ")
         self._value = value
+
+    def fake(self):
+        radios = self.radios
+        radio = random.choice(radios)
+        radio.select()

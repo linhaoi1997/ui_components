@@ -1,3 +1,5 @@
+import random
+
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -75,3 +77,8 @@ class CheckBoxGroupInput(BaseInput):
                                    f"没找到从check_boxs{[i.name for i in self.check_boxs]}中想要的下拉选项{values}")
 
         self._value = values
+
+    def fake(self):
+        check_boxs = self.check_boxs
+        box = random.choice(check_boxs)
+        box.select()

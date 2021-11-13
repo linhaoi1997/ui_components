@@ -17,3 +17,6 @@ class DateInput(BaseInput):
             self.send_keys(input_, value.strftime("%Y%m%d%H%M"))
         else:
             self.send_keys(input_, value)
+
+    def fake(self):
+        self.value = datetime.datetime.now()
