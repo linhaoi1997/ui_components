@@ -1,24 +1,14 @@
 [tool.poetry]
-name = "tpmain_api_test"
-version = "0.2.8"
-description = "tpmain apis"
+name = "ui_components"
+version = "1.0.0"
+description = "平台自定义表单组件测试代码"
 authors = ["linhao <15774518534@163.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 pytest = "^6.2.5"
 allure-pytest = "^2.9.44"
-apitestbasic = "0.2.5.1"
-beeprint = "^2.4.10"
-Faker = "^9.5.0"
-jmespath = "^0.10.0"
-PyHamcrest = "^2.0.2"
-pytest-ordering = "^0.6"
-pytest-rerunfailures = "^10.2"
-pytest-sugar = "^0.9.4"
-pytest-xdist = "^2.4.0"
-python-utils = "^2.5.6"
-graphqlapiobject = "^3.0.0"
+selenium = "^4.0.0"
 
 [tool.poetry.dev-dependencies]
 
