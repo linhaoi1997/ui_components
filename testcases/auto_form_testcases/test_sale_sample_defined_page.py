@@ -4,11 +4,13 @@ import logging
 import allure
 import pytest
 
+from config import account, password
+from pages.login_page import LoginPage
 from pages.sale_sample_page import SaleSamplePage
 from pages.sale_form_page import SaleFormDefinedPage
 from ui_components.components.auto_form_component.form_cases_class import *
 
-from ui_components.utils.get_driver import get_driver
+from ui_components.utils.get_driver import get_driver, safe_remote_driver
 
 cases = [TextCase, DateCase, CheckboxCase, RadioCase, MuiSelectCase, NumberCase,
          SelectCase,
@@ -19,13 +21,14 @@ cases = [TextCase, DateCase, CheckboxCase, RadioCase, MuiSelectCase, NumberCase,
 class Test:
 
     def setup_class(self):
-        driver = get_driver()
-        # driver = webdriver.Chrome()
+        # driver = get_driver()
+        driver = safe_remote_driver()
+        LoginPage(driver).login(account, password)
         self.page = SaleSamplePage(driver)
         self.defined_page = SaleFormDefinedPage(driver)
 
     @pytest.mark.parametrize("case_type", cases)
-    def test1(self, case_type):
+    def test(self, case_type):
         with allure.step("定义表单"):
             defined_page = self.defined_page
             defined_page.jump()

@@ -1,11 +1,11 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import url_matches
-import os
+from config import BASE_URL
 
 
 class BasePage(object):
-    base_url = os.getenv("WEB_BASE_URL", "https://mc-test.teletraan.io/")
+    base_url = BASE_URL
     url = ""
 
     def __init__(self, driver: WebDriver):
