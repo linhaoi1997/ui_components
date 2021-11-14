@@ -1,8 +1,8 @@
 from typing import Type
 
-from testcases.auto_form_test.base_form_case import BaseFormCase
-from testcases.auto_form_test.config_form import *
-from ui_components.components.form_components import *
+from .base_form_case import BaseFormCase
+from ..config_form import *
+from ...form_components import *
 
 
 class MuiSelectCase(BaseFormCase):

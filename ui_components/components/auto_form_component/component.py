@@ -9,7 +9,7 @@ from ui_components.utils.change_wait_time import change_wait_time
 from .config_form import BaseDefinedForm
 from ui_components.components.base_component import PageComponent
 from ui_components.elements.template_elements import ButtonElement
-from .base_form_case import BaseFormCase
+from ui_components.components.auto_form_component.form_cases_class.base_form_case import BaseFormCase
 
 
 class DefineFormComponent(PageComponent):

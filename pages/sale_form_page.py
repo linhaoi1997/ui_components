@@ -1,9 +1,7 @@
-import logging
-
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import url_changes
 
-from testcases.auto_form_test.components import DefineFormComponent
+from ui_components.components.auto_form_component.component import DefineFormComponent
 from ui_components.elements.template_elements import ButtonElement
 from .base_page import BasePage
 

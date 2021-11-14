@@ -1,10 +1,11 @@
+"""测试所有的表单定义"""
 import logging
 
 import allure
 import pytest
 
-from testcases.auto_form_test.components import DefineFormComponent
-from testcases.auto_form_test.form_cases_class import *
+from ui_components.components.auto_form_component.component import DefineFormComponent
+from ui_components.components.auto_form_component.form_cases_class import *
 from ui_components.utils.get_driver import get_driver
 
 cases = [

@@ -1,3 +1,4 @@
+"""测试表单定义之后，可以在具体的表单去新增"""
 import logging
 
 import allure
@@ -5,8 +6,7 @@ import pytest
 
 from pages.sale_sample_page import SaleSamplePage
 from pages.sale_form_page import SaleFormDefinedPage
-from testcases.auto_form_test.form_cases_class import *
-from selenium import webdriver
+from ui_components.components.auto_form_component.form_cases_class import *
 
 from ui_components.utils.get_driver import get_driver
 
