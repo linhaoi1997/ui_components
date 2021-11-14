@@ -5,17 +5,17 @@ from testcases.auto_form_test.config_form import *
 from ui_components.components.form_components import *
 
 
-class MinMaxCase(BaseFormCase):
+class MuiSelectCase(BaseFormCase):
     @property
     def data(self):
         return {
-            "mui_select": "金斧子",
+            "mui_select": ["金斧子"],
         }
 
     @property
     def form(self) -> Type[FormComponent]:
         class Form(FormComponent):
-            mui_select = NativeSelectInput("下拉多选框")
+            mui_select = MuiSelectInput("下拉多选框")
 
         return Form
 

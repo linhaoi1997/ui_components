@@ -1,8 +1,10 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.expected_conditions import  url_changes
+from selenium.webdriver.support.expected_conditions import url_changes
 from selenium.webdriver.support.wait import WebDriverWait
 
 from ui_components.components.form_components import *
+from ui_components.components.table_component import Table
+from ui_components.elements.elements import Element
 from .base_page import BasePage
 from ui_components.elements.template_elements import ButtonElement
 from contextlib import contextmanager
@@ -11,10 +13,20 @@ from contextlib import contextmanager
 class SaleSamplePage(BasePage):
     url = "subapp/sale/sample"
     add_button = ButtonElement("新增样单")
+    table = Table()
+    edit_button = Element("//li[text()='提交']")
 
     def add(self):
         self.add_button.click()
         new_page = CreateSaleSamplePage(self.driver)
+        new_page.wait_for_jump()
+        return new_page
+
+    def edit_new_sale(self):
+        table = self.table
+        table[0].operation.buttons[0].click()
+        self.edit_button.click()
+        new_page = UpdateSaleSamplePage(self.driver)
         new_page.wait_for_jump()
         return new_page
 
@@ -30,7 +42,7 @@ class CreateSaleSamplePage(BasePage):
     url = "subapp/sale/sample/create"
     form = SaleForm()
     add_product_button = ButtonElement("添加")
-    submit = ButtonElement("确认提交")
+    save = ButtonElement("保存")
 
     def add_product(self):
         self.add_product_button.click()
@@ -48,7 +60,11 @@ class CreateSaleSamplePage(BasePage):
         form.address.fake()
         self.add_product()
         yield
-        self.submit.click()
+        self.save.click()
         WebDriverWait(self.driver, 5).until(url_changes(self.full_url))
         new_page = SaleSamplePage(self.driver)
         return new_page
+
+
+class UpdateSaleSamplePage(CreateSaleSamplePage):
+    url = "subapp/sale/sample/update"

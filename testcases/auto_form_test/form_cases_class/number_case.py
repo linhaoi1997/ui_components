@@ -5,7 +5,7 @@ from testcases.auto_form_test.config_form import *
 from ui_components.components.form_components import *
 
 
-class MinMaxCase(BaseFormCase):
+class NumberCase(BaseFormCase):
     @property
     def data(self):
         return {
@@ -15,7 +15,7 @@ class MinMaxCase(BaseFormCase):
     @property
     def form(self) -> Type[FormComponent]:
         class Form(FormComponent):
-            number = TextInput("输入框-数值")
+            number = NumberInput("输入框-数值")
 
         return Form
 

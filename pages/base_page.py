@@ -17,7 +17,7 @@ class BasePage(object):
         self.wait_for_jump()
 
     def wait_for_jump(self):
-        WebDriverWait(self.driver, 5).until(url_matches(self.full_url))
+        WebDriverWait(self.driver, 10).until(url_matches(self.full_url))
 
     @property
     def full_url(self):

@@ -73,14 +73,14 @@ class MuiSelectForm(SingleSelectForm):
 
 # 数值范围子表单
 class NumberRangeForm(BaseComponent):
-    DEFAULT_LOCATOR = "//label[span='最小值']/ancestor::div[label]/.."
+    DEFAULT_LOCATOR = ".//label[span='最小值']/parent::div[label]/.."
     min_range = NumberInput("最小值")
     max_range = NumberInput("最大值")
 
 
 # 数值配置表单
 class NumberConfigForm(BaseComponent):
-    DEFAULT_LOCATOR = "//label[span='大小范围']/ancestor::div[label]/.."
+    DEFAULT_LOCATOR = "//label[span='大小范围']/parent::div[label]/.."
     range = NumberRangeForm()
     can_be_zero = RadioGroupInput("能否为零")
     decimal_digits = RadioGroupInput("小数位数")

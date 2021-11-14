@@ -1,4 +1,4 @@
-import datetime
+# import datetime
 from typing import Type
 
 from testcases.auto_form_test.base_form_case import BaseFormCase
@@ -6,17 +6,18 @@ from testcases.auto_form_test.config_form import *
 from ui_components.components.form_components import *
 
 
-class MinMaxCase(BaseFormCase):
+class DateCase(BaseFormCase):
     @property
     def data(self):
         return {
-            "date": datetime.datetime.now(),
+            # "date": datetime.datetime.now(),
+            "date": "2021"
         }
 
     @property
     def form(self) -> Type[FormComponent]:
         class Form(FormComponent):
-            date = DateInput("日期")
+            date = TextInput("日期")
 
         return Form
 

@@ -24,14 +24,14 @@ class NumberInput(BaseInput):
 
     @property
     def value(self):
-        value = self.element.find_element_by_xpath(".//input").get_attribute("value")
+        value = self.element.find_element_by_xpath(".//input|.//textarea").get_attribute("value")
         if value:
             return float(value)
 
     @value.setter
     def value(self, value: float):
         self._value = value
-        input_ = self.element.find_element_by_xpath(".//input")
+        input_ = self.element.find_element_by_xpath(".//input|.//textarea")
         self.send_keys(input_, value)
 
     def fake(self):

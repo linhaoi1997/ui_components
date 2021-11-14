@@ -10,7 +10,7 @@ from ..utils.change_wait_time import change_wait_time
 class BaseElement(object):
     """元素的基类"""
 
-    def __init__(self, *args, wait_time=10):
+    def __init__(self, *args, wait_time=15):
         self.wait_time = wait_time
         if len(args) == 1:
             args = [By.XPATH, args[0]]

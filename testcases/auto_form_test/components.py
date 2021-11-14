@@ -1,10 +1,11 @@
-from typing import  Type
+from typing import Type
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.expected_conditions import element_to_be_clickable, url_changes, invisibility_of_element
 
 from ui_components.components.form_components import FormComponent
+from ui_components.utils.change_wait_time import change_wait_time
 from .config_form import BaseDefinedForm
 from ui_components.components.base_component import PageComponent
 from ui_components.elements.template_elements import ButtonElement
@@ -23,9 +24,12 @@ class DefineFormComponent(PageComponent):
     defined_form_type: Type[FormComponent]  # 返回表单类型会存在这里
 
     def setup(self):  # 初始化
-        if not element_to_be_clickable(self.add_button)(self.driver):
+
+        def wait_for_click(element):
             self.element.click()
-        WebDriverWait(self.driver, 5).until(element_to_be_clickable(self.add_button), "新增字段按钮不可点击")
+            return element_to_be_clickable(element)
+
+        WebDriverWait(self.driver, 10).until(wait_for_click(self.add_button), "新增字段按钮不可点击")
 
     def save(self):  # 点击保存按钮
         url = self.driver.current_url
@@ -37,20 +41,21 @@ class DefineFormComponent(PageComponent):
         return self.element.find_elements(By.XPATH, "./div/div")
 
     def add_field(self):  # 点击新增按钮
-        self.setup()
-        number = len(self.__all_fields_element)
-        self.add_button.click()
+        with change_wait_time(self.driver):
+            self.setup()
+            number = len(self.__all_fields_element)
+            self.add_button.click()
 
-        def field_num_changes(num):
-            def _predicate(element):
-                return num != len(self.__all_fields_element)
+            def field_num_changes(num):
+                def _predicate(element):
+                    return num != len(self.__all_fields_element)
 
-            return _predicate
+                return _predicate
 
-        WebDriverWait(self.driver, 5).until(field_num_changes(number))
+            WebDriverWait(self.driver, 5).until(field_num_changes(number))
 
     def set_form(self, form_case: BaseFormCase):  # 设置自定义表单
-        self.setup()
+        self.delete_all_fields()
         setattr(self, "_defined_form", form_case.form("./div"))
         self.defined_form_type = form_case.form
         config = form_case.config
@@ -72,13 +77,11 @@ class DefineFormComponent(PageComponent):
 
     def delete_all_fields(self):  # 删除自定义字段
         self.setup()
-        while self.__all_fields_element:
-            element = self.__all_fields_element[-1]
-            element.click()
-            delete_button = self.delete_button
-            delete_button.click()
-            self.confirm_button.click()
-            WebDriverWait(self.driver, 5).until(invisibility_of_element(delete_button))
-
-    def all_fields(self):
-        pass
+        with change_wait_time(self.driver):
+            while self.__all_fields_element:
+                element = self.__all_fields_element[-1]
+                element.click()
+                delete_button = self.delete_button
+                delete_button.click()
+                self.confirm_button.click()
+                WebDriverWait(self.driver, 5).until(invisibility_of_element(delete_button))
